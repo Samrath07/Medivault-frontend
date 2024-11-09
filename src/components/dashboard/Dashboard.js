@@ -3,14 +3,13 @@ import { Drawer, List, ListItem, ListItemIcon, ListItemText, Box, Toolbar } from
 import InventoryIcon from '@mui/icons-material/Inventory';
 import PeopleIcon from '@mui/icons-material/People';
 import ReceiptIcon from '@mui/icons-material/Receipt';
-import Navbar from '../common/Navbar';
+
+
 const drawerWidth = 240;
 
 function Dashboard() {
   return (
     <Box sx={{ display: 'flex' }}>
-      {/* Navbar */}
-      <Navbar />
 
       {/* Sidebar */}
       <Drawer

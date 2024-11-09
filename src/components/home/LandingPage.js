@@ -14,7 +14,7 @@ function LandingPage() {
 
   return (
     <div>
-      <AppBar position="static" sx={{margin : 0}}>
+      <AppBar position="static" sx={{textTransform : 'none'}}>
         <Toolbar>
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
             Pharmacy Management System

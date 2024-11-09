@@ -1,25 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { createContext, useState, useContext } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { ThemeProvider, createTheme, Snackbar } from '@mui/material';
+import RouterMain from './router';
 
-function App() {
+const SnackbarContext = createContext();
+
+export const useSnackbar = () => useContext(SnackbarContext);
+
+const App = () => {
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#3f51b5',
+      },
+      secondary: {
+        main: '#f50057',
+      },
+    },
+  });
+
+  // Function to show the snackbar
+  const showSnackbar = (message) => {
+    setSnackbarMessage(message);
+    setSnackbarOpen(true);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <SnackbarContext.Provider value={showSnackbar}>
+        <Router>
+         <RouterMain/>
+          <Snackbar
+            open={snackbarOpen}
+            autoHideDuration={3000}
+            onClose={() => setSnackbarOpen(false)}
+            message={snackbarMessage}
+          />
+        </Router>
+      </SnackbarContext.Provider>
+    </ThemeProvider>
   );
-}
+};
 
 export default App;

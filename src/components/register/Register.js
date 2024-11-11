@@ -1,22 +1,32 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { Button, TextField, Typography, Container, Box } from '@mui/material';
+import { TextField, Typography, Container, Box, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
+import { register } from '../api/authentication';
+import { useNavigate } from 'react-router-dom';
+import { StyledButton } from '../common/StyledButtons';
 
 // Validation schema
 const RegisterSchema = Yup.object().shape({
-  name: Yup.string().required('Required'),
-  email: Yup.string().email('Invalid email').required('Required'),
-  password: Yup.string().min(6, 'Too Short!').required('Required'),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password'), null], 'Passwords must match')
-    .required('Required'),
+  email: Yup.string().required('Email is required'),
+  password: Yup.string().required('Password is required'),
+  role: Yup.string().required('Role is required'),
 });
 
 function Register() {
-  const handleSubmit = (values) => {
-    // Placeholder for API call
-    console.log('Register data:', values);
+    const navigate = useNavigate();
+  const handleSubmit = async(values) => {
+      // Placeholder for API call
+      try {
+          const { email, password, role } = values;
+          const response = await register(email, password, role);
+          if (response.token) {
+              navigate('/login');
+          }
+      }
+      catch (error) {
+          console.log('error', error);
+      }
   };
 
   return (
@@ -26,21 +36,12 @@ function Register() {
           Register
         </Typography>
         <Formik
-          initialValues={{ name: '', email: '', password: '', confirmPassword: '' }}
+          initialValues={{ email: '', password: '', role: '' }}
           validationSchema={RegisterSchema}
           onSubmit={handleSubmit}
         >
           {({ errors, touched }) => (
             <Form>
-              <Field
-                name="name"
-                as={TextField}
-                label="Name"
-                fullWidth
-                margin="normal"
-                error={touched.name && Boolean(errors.name)}
-                helperText={touched.name && errors.name}
-              />
               <Field
                 name="email"
                 as={TextField}
@@ -60,19 +61,24 @@ function Register() {
                 error={touched.password && Boolean(errors.password)}
                 helperText={touched.password && errors.password}
               />
-              <Field
-                name="confirmPassword"
-                as={TextField}
-                label="Confirm Password"
-                type="password"
-                fullWidth
-                margin="normal"
-                error={touched.confirmPassword && Boolean(errors.confirmPassword)}
-                helperText={touched.confirmPassword && errors.confirmPassword}
-              />
-              <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-                Register
-              </Button>
+              <FormControl fullWidth margin="normal" error={touched.role && Boolean(errors.role)}>
+                <InputLabel>Role</InputLabel>
+                <Field
+                  name="role"
+                  as={Select}
+                  label="Role"
+                >
+                  <MenuItem value="customer">Customer</MenuItem>
+                  <MenuItem value="pharmacist">Pharmacist</MenuItem>
+                  <MenuItem value="admin">Admin</MenuItem>
+                </Field>
+                {touched.role && errors.role && (
+                  <Typography variant="caption" color="error">
+                    {errors.role}
+                  </Typography>
+                )}
+              </FormControl>
+              <StyledButton label="Register"/>
             </Form>
           )}
         </Formik>

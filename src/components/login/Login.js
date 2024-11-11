@@ -1,23 +1,45 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { Button, TextField, Typography, Container, Box } from '@mui/material';
+import { TextField, Typography, Container, Box } from '@mui/material';
+import { login } from '../api/authentication';
+import { useNavigate } from 'react-router-dom';
+import { StyledButton } from '../common/StyledButtons';
+// import { useSnackbar } from '../../App';
 
 // Validation schema
 const LoginSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email').required('Required'),
-  password: Yup.string().min(6, 'Too Short!').required('Required'),
+  email: Yup.string().required('Email is required'),
+  password: Yup.string().required('Password is required'),
 });
 
 function Login() {
-  const handleSubmit = (values) => {
-    // Placeholder for API call
-    console.log('Login data:', values);
+    const navigate = useNavigate();
+    const handleSubmit = async (values) => {
+        try {
+            const { email, password } = values;
+            const response = await login(email, password)
+            if (response.token) {
+                navigate('/dashboard')
+            }
+        }
+        catch (error) {
+            console.log('Error', error);
+        }
+
+
   };
 
   return (
     <Container maxWidth="xs">
-      <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" mt={8}>
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+              mt={8}
+
+      >
         <Typography variant="h4" gutterBottom>
           Login
         </Typography>
@@ -47,9 +69,7 @@ function Login() {
                 error={touched.password && Boolean(errors.password)}
                 helperText={touched.password && errors.password}
               />
-              <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-                Login
-              </Button>
+             <StyledButton label="Login"/>
             </Form>
           )}
         </Formik>

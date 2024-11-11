@@ -17,7 +17,7 @@ function LandingPage() {
       <AppBar position="static" sx={{textTransform : 'none'}}>
         <Toolbar>
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            Pharmacy Management System
+            Medivault
           </Typography>
           <Button color="inherit" onClick={() => navigate('/')}>
             Home
@@ -47,7 +47,7 @@ function LandingPage() {
           height="80vh"
         >
           <Typography variant="h3" gutterBottom>
-            Welcome to Pharmacy Management System
+            Welcome to Medivault
           </Typography>
           <Typography
             variant="h5"

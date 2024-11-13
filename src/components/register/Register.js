@@ -3,7 +3,7 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { TextField, Typography, Container, Box, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import { register } from '../api/authentication';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { StyledButton } from '../common/StyledButtons';
 
 // Validation schema
@@ -68,9 +68,8 @@ function Register() {
                   as={Select}
                   label="Role"
                 >
-                  <MenuItem value="customer">Customer</MenuItem>
                   <MenuItem value="pharmacist">Pharmacist</MenuItem>
-                  <MenuItem value="admin">Admin</MenuItem>
+                  <MenuItem value="manager">Inventory Manager</MenuItem>
                 </Field>
                 {touched.role && errors.role && (
                   <Typography variant="caption" color="error">
@@ -82,6 +81,9 @@ function Register() {
             </Form>
           )}
         </Formik>
+        <Link to='/login'>
+        <Typography>Already registered Log in</Typography>
+        </Link>
       </Box>
     </Container>
   );

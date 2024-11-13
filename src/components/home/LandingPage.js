@@ -14,7 +14,7 @@ function LandingPage() {
 
   return (
     <div>
-      <AppBar position="static" sx={{textTransform : 'none'}}>
+      <AppBar position="static" sx={{ textTransform: 'none' }}>
         <Toolbar>
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
             Medivault
@@ -30,10 +30,6 @@ function LandingPage() {
           </Button>
           <Button color="inherit" onClick={() => navigate('/products')}>
             Products
-          </Button>
-
-          <Button color="inherit" onClick={() => navigate('/register')}>
-            Sign Up
           </Button>
         </Toolbar>
       </AppBar>
@@ -59,6 +55,21 @@ function LandingPage() {
             A comprehensive solution for managing your pharmacy inventory,
             customers, prescriptions, and orders efficiently.
           </Typography>
+          <Button
+            onClick={() => navigate('/register')}
+            color="primary"
+            variant='contained'
+            sx={{
+              mt: 2,
+              p: 2,
+              mx: 5,
+              textTransform: 'none',
+              fontSize: 20,
+              width: 300,
+            }}
+          >
+            Sign up
+          </Button>
         </Box>
       </Container>
     </div>
